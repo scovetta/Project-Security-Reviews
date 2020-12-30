@@ -16,6 +16,7 @@ package_url: pkg:npm/left-pad@1.1.2
 package_url: pkg:npm/left-pad@1.1.3
 package_url: pkg:npm/left-pad@1.2.0
 package_url: pkg:npm/left-pad@1.3.0
+review_date: 2020-12-30
 author: Michael Scovetta <michael.scovetta@microsoft.com>
 recommendation: context-dependent
 -->
