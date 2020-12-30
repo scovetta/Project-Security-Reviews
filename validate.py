@@ -1,12 +1,10 @@
 #!env python
 
 import sys
-import markdown
 from typing import List
 import os
-import markdown
-from mdx_gfm import GithubFlavoredMarkdownExtension
 import re
+from better_profanity import profanity
 
 class SecurityReviewValidator:
     results = None
@@ -34,13 +32,19 @@ class SecurityReviewValidator:
             if not f.readable():
                 self.results.append('Unable to read from file.')
                 return self.results
-            lines = f.readlines()
+            content = f.read()
+            lines = content.splitlines()
 
+        self.__check_profanity(content)
         self.__check_required_headers(lines)
         self.__check_metadata(lines)
 
         return self.results
         
+    def __check_profanity(self, content):
+        if profanity.contains_profanity(content):
+            self.results.append("Contains profanity.")
+        return
 
     def __check_required_headers(self, lines):
         sections = list(map(str.strip, filter(lambda s: s.startswith('### '), lines)))
@@ -80,8 +84,16 @@ class SecurityReviewValidator:
         if 'author' not in metadata:
             self.results.append("Missing author.")
 
+        if 'review_date' not in metadata:
+            self.results.append("Missing review date.")
+
         if 'recommendation' not in metadata:
             self.results.append("Missing recommendation.")
+        if len(metadata.get('recommendation')) > 1:
+            self.results.append("Too many recommendations, only one is allowed.")
+        recommendation = metadata.get('recommendation')[0]
+        if recommendation not in ['safe', 'unsafe', 'context-dependent', 'no-opinion']:
+            self.results.append("Invalid recommendation, must be either 'safe', 'unsafe', 'context-dependent', or 'no-opinion'")
 
 
 if __name__ == '__main__':
