@@ -62,12 +62,13 @@ purpose of this project.
 
 ### Adding/Updating a Security Review
 
-[ ] Review the [Adding a Security Review](#) wiki page for information
-    and best practices for how to conduct and submit a security
-    review.
-[ ] Clone this repository and add your security review in the relevant
-    directory.
-[ ] Submit a pull request.
+- [ ] Review the [review template](template.md) file for information on
+      which sections to include and the type of information required for
+      a review to be accepted.
+- [ ] Conduct the security review.    
+- [ ] Clone this repository and add your security review in the relevant
+      path.
+- [ ] Submit a pull request.
 
 ### Removing a Security Review
 
